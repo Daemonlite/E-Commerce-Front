@@ -40,6 +40,7 @@ const router = useRouter();
                   </svg>
                 </button>
                 <button
+                  @click="router.push({ name: 'support' })"
                   class="bg-transparent border-2 border-[#333] flex items-center transition-all font-semibold rounded-md px-5 py-2"
                 >
                   Customer Support

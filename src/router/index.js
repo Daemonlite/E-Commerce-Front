@@ -9,7 +9,7 @@ import Shoes from '../views/Shoes.vue'
 import Register from '../pages/Register.vue'
 import Login from '../pages/Login.vue'
 import NotFound from '../pages/Register.vue'
-
+import Support from '../pages/Support.vue'
 
 const routes = [
        {
@@ -30,6 +30,11 @@ const routes = [
                 path:"/login",
                 name:"login",
                 component:Login
+            },
+            {
+                path:"/support",
+                name:"support",
+                component:Support
             },
             {
               path:'/shoes',
