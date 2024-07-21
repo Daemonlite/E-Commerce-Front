@@ -1,146 +1,270 @@
 <script setup>
-import { ref, computed } from 'vue';
-import {useRouter} from 'vue-router';
+import { useRouter } from "vue-router";
 
 const router = useRouter();
-
-const products = ref([
-  {
-    id: 1,
-    name: 'Sole Elegance',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    price: 10,
-    category: 'Casual',
-    gender: 'Men',
-    image: 'https://readymadeui.com/images/product9.webp'
-  },
-  {
-    id: 2,
-    name: 'Urban Sneakers',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    price: 12,
-    category: 'Sport',
-    gender: 'Women',
-    image: 'https://readymadeui.com/images/product10.webp'
-  },
-  {
-    id: 3,
-    name: 'Velvet Boots',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    price: 14,
-    category: 'Boots',
-    gender: 'Men',
-    image: 'https://readymadeui.com/images/product11.webp'
-  },
-  {
-    id: 4,
-    name: 'Summit Hiking',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    price: 12,
-    category: 'Sport',
-    gender: 'Women',
-    image: 'https://readymadeui.com/images/product12.webp'
-  },
-  {
-    id: 5,
-    name: 'Zenith Glow',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    price: 15,
-    category: 'Casual',
-    gender: 'Men',
-    image: 'https://readymadeui.com/images/product13.webp'
-  },
-  {
-    id: 6,
-    name: 'Echo Elegance',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    price: 14,
-    category: 'Casual',
-    gender: 'Women',
-    image: 'https://readymadeui.com/images/product14.webp'
-  },
-  {
-    id: 7,
-    name: 'Pumps',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    price: 14,
-    category: 'Casual',
-    gender: 'Women',
-    image: 'https://readymadeui.com/images/product15.webp'
-  },
-  {
-    id: 8,
-    name: 'Blaze Burst',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    price: 14,
-    category: 'Sport',
-    gender: 'Men',
-    image: 'https://readymadeui.com/images/product10.webp'
-  }
-]);
-
-const categories = ref(['All', 'Casual', 'Sport', 'Boots']);
-const genders = ref(['All', 'Men', 'Women']);
-
-const selectedCategory = ref('All');
-const selectedGender = ref('All');
-
-const addToCart = (product) => {
-  console.log(`Added ${product.name} to cart`);
-};
-
-const viewProduct = (product) => {
-    router.push({ name: 'product-detail', query: { name: product.name } })
-}
-
-const filteredProducts = computed(() => {
-  return products.value.filter(product => {
-    return (selectedCategory.value === 'All' || product.category === selectedCategory.value) &&
-           (selectedGender.value === 'All' || product.gender === selectedGender.value);
-  });
-});
 </script>
 
 <template>
-  <div class="font-[sans-serif] bg-gray-100">
-    <div class="p-4 mx-auto lg:max-w-7xl sm:max-w-full">
-      <h2 class="text-4xl font-extrabold text-gray-800 mb-6">Premium Sneakers</h2>
-      <div class="flex justify-center mb-4">
-        <div class="mr-4">
-          <label class="font-bold text-gray-700">Category: </label>
-          <select v-model="selectedCategory" class="border rounded p-2 w-[300px]">
-            <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
-          </select>
-        </div>
-        <div>
-          <label class="font-bold text-gray-700">Gender: </label>
-          <select v-model="selectedGender" class="border rounded p-2 w-[300px]">
-            <option v-for="gender in genders" :key="gender" :value="gender">{{ gender }}</option>
-          </select>
-        </div>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-xl:gap-4 gap-6">
-        <div v-for="product in filteredProducts" :key="product.id" class="bg-white rounded-2xl p-5 cursor-pointer hover:-translate-y-2 transition-all relative">
-          <div class="bg-gray-100 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16px" class="fill-gray-800 inline-block" viewBox="0 0 64 64">
-              <path d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z" data-original="#000000"></path>
-            </svg>
-          </div>
-          <div class="w-5/6 h-[210px] overflow-hidden mx-auto aspect-w-16 aspect-h-8 md:mb-2 mb-4">
-            <img :src="product.image" :alt="product.name" class="h-full w-full object-contain" />
-          </div>
-          <div>
-            <h3 class="text-lg font-extrabold text-gray-800 cursor-pointer" @click="viewProduct(product)">{{ product.name }}</h3>
-            <p class="text-gray-600 text-sm mt-2">{{ product.description }}</p>
-            <h4 class="text-lg text-gray-800 font-bold mt-4">${{ product.price }}</h4>
-            <div @click="addToCart(product)" class="bg-gray-200 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute bottom-4 right-4">
-              <svg xmlns="http://www.w3.org/2000/svg" class="fill-gray-800 w-6 h-6" viewBox="0 0 24 24">
-                <path d="M10 18c0 .55.45 1 1 1s1-.45 1-1-.45-1-1-1-1 .45-1 1zm8 0c0 .55.45 1 1 1s1-.45 1-1-.45-1-1-1-1 .45-1 1zm1-2H7.42c-.42 0-.79-.25-.93-.63L4.1 6H1c-.55 0-1 .45-1 1s.45 1 1 1h2.52l2.73 8.68c.24.75.93 1.32 1.71 1.32H19c.55 0 1-.45 1-1s-.45-1-1-1zm-.87-9.29L18 4H6.21l-.94-2.35c-.13-.33-.44-.54-.79-.54H2c-.55 0-1 .45-1 1s.45 1 1 1h1.03L5.18 11h11.17l-1.22-3.29z"/>
-              </svg>
+  <body class="max-w-[1920px] mx-auto text-black text-sm">
+    <div class="bg-white">
+      <div class="lg:min-h-[560px] bg-blue-100 px-4 sm:px-10">
+        <div class="max-w-7xl w-full mx-auto py-16">
+          <div class="grid lg:grid-cols-2 justify-center items-center gap-10">
+            <div>
+              <h1
+                class="md:text-5xl text-4xl font-bold mb-6 md:!leading-[55px]"
+              >
+                Shop from a wide range of products at Affordabe Prices
+              </h1>
+              <p class="text-base leading-relaxed">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio
+                doloremque, odit ut impedit in sit inventore maiores et
+                consectetur ratione vel libero temporibus ipsam excepturi nam
+                fuga, rem, modi autem.
+              </p>
+              <div class="flex flex-wrap gap-y-4 gap-x-8 mt-8">
+                <button
+                  @click="router.push({ name: 'login' })"
+                  class="bg-black hover:bg-[#222] text-white flex items-center transition-all font-semibold rounded-md px-5 py-4"
+                >
+                  Get started
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-[14px] fill-current ml-2"
+                    viewBox="0 0 492.004 492.004"
+                  >
+                    <path
+                      d="M484.14 226.886 306.46 49.202c-5.072-5.072-11.832-7.856-19.04-7.856-7.216 0-13.972 2.788-19.044 7.856l-16.132 16.136c-5.068 5.064-7.86 11.828-7.86 19.04 0 7.208 2.792 14.2 7.86 19.264L355.9 207.526H26.58C11.732 207.526 0 219.15 0 234.002v22.812c0 14.852 11.732 27.648 26.58 27.648h330.496L252.248 388.926c-5.068 5.072-7.86 11.652-7.86 18.864 0 7.204 2.792 13.88 7.86 18.948l16.132 16.084c5.072 5.072 11.828 7.836 19.044 7.836 7.208 0 13.968-2.8 19.04-7.872l177.68-177.68c5.084-5.088 7.88-11.88 7.86-19.1.016-7.244-2.776-14.04-7.864-19.12z"
+                      data-original="#000000"
+                    />
+                  </svg>
+                </button>
+                <button
+                  class="bg-transparent border-2 border-[#333] flex items-center transition-all font-semibold rounded-md px-5 py-2"
+                >
+                  Customer Support
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-[14px] fill-current ml-2"
+                    viewBox="0 0 492.004 492.004"
+                  >
+                    <path
+                      d="M484.14 226.886 306.46 49.202c-5.072-5.072-11.832-7.856-19.04-7.856-7.216 0-13.972 2.788-19.044 7.856l-16.132 16.136c-5.068 5.064-7.86 11.828-7.86 19.04 0 7.208 2.792 14.2 7.86 19.264L355.9 207.526H26.58C11.732 207.526 0 219.15 0 234.002v22.812c0 14.852 11.732 27.648 26.58 27.648h330.496L252.248 388.926c-5.068 5.072-7.86 11.652-7.86 18.864 0 7.204 2.792 13.88 7.86 18.948l16.132 16.084c5.072 5.072 11.828 7.836 19.044 7.836 7.208 0 13.968-2.8 19.04-7.872l177.68-177.68c5.084-5.088 7.88-11.88 7.86-19.1.016-7.244-2.776-14.04-7.864-19.12z"
+                      data-original="#000000"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="max-lg:mt-12 h-full">
+              <img
+                src="https://readymadeui.com/analtsis.webp"
+                alt="banner img"
+                class="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
       </div>
+
+      <div class="mt-28 px-4 sm:px-10">
+        <div class="max-w-7xl w-full mx-auto">
+          <div class="grid lg:grid-cols-2 items-center gap-10">
+            <div class="">
+              <h2 class="md:text-4xl text-3xl font-semibold mb-6">
+                We offer varietties of High Quality Products
+              </h2>
+              <p>
+                Laboris qui Lorem ad tempor ut reprehenderit. Nostrud anim nulla
+                officia ea sit deserunt. Eu eu quis anim aute Laboris qui Lorem
+                ad tempor ut reprehenderit. Eu eu quis anim aute.
+              </p>
+              <button
+                class="bg-black hover:bg-[#222] text-white flex items-center transition-all font-semibold rounded-md px-5 py-4 mt-8"
+              >
+                Learn more
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-[14px] fill-current ml-2"
+                  viewBox="0 0 492.004 492.004"
+                >
+                  <path
+                    d="M484.14 226.886 306.46 49.202c-5.072-5.072-11.832-7.856-19.04-7.856-7.216 0-13.972 2.788-19.044 7.856l-16.132 16.136c-5.068 5.064-7.86 11.828-7.86 19.04 0 7.208 2.792 14.2 7.86 19.264L355.9 207.526H26.58C11.732 207.526 0 219.15 0 234.002v22.812c0 14.852 11.732 27.648 26.58 27.648h330.496L252.248 388.926c-5.068 5.072-7.86 11.652-7.86 18.864 0 7.204 2.792 13.88 7.86 18.948l16.132 16.084c5.072 5.072 11.828 7.836 19.044 7.836 7.208 0 13.968-2.8 19.04-7.872l177.68-177.68c5.084-5.088 7.88-11.88 7.86-19.1.016-7.244-2.776-14.04-7.864-19.12z"
+                    data-original="#000000"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-8">
+              <div
+                class="text-center bg-white shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] transition-all rounded-xl p-6"
+              >
+                <h3 class="text-base font-semibold mt-6 mb-2">
+                  Home Appliances
+                </h3>
+                <a
+                  href="javascript:void(0);"
+                  class="text-blue-600 font-bold inline-block hover:underline"
+                  >Learn more</a
+                >
+              </div>
+              <div
+                class="text-center bg-white hover:shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] transition-all rounded-xl p-6"
+              >
+                <h3 class="text-base font-semibold mt-6 mb-2">
+                  Casual & Formal Clothing
+                </h3>
+                <a
+                  href="javascript:void(0);"
+                  class="text-blue-600 font-bold inline-block hover:underline"
+                  >Learn more</a
+                >
+              </div>
+              <div
+                class="text-center bg-white hover:shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] transition-all rounded-xl p-6"
+              >
+                <h3 class="text-base font-semibold mt-6 mb-2">
+                  Gaming Accessories
+                </h3>
+                <a
+                  href="javascript:void(0);"
+                  class="text-blue-600 font-bold inline-block hover:underline"
+                  >Learn more</a
+                >
+              </div>
+              <div
+                class="text-center bg-white hover:shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] transition-all rounded-xl p-6"
+              >
+                
+                <h3 class="text-base font-semibold mt-6 mb-2">
+                  Home and Office Furniture
+                </h3>
+                <a
+                  href="javascript:void(0);"
+                  class="text-blue-600 font-bold inline-block hover:underline"
+                  >Learn more</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-4 sm:px-10 mt-28">
+        <div class="max-w-7xl w-full mx-auto">
+          <div class="grid md:grid-cols-2 items-center gap-10">
+            <div class="w-full h-full">
+              <img
+                src="https://readymadeui.com/team-image.webp"
+                alt="Premium Benefits"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <h2 class="md:text-4xl text-3xl font-semibold mb-6">
+                Fresh Ideas for your business design
+              </h2>
+              <p>
+                Veniam proident aute magna anim excepteur et ex consectetur
+                velit ullamco veniam minim aute sit. Elit occaecat officia et
+                laboris Lorem minim. Officia do aliqua adipisicing ullamco in.
+                anim excepteur et ex consectetur velit ullamco veniam minim aute
+                sit.
+              </p>
+
+              <div class="mt-8">
+                <div class="flex items-center">
+                  <img
+                    src="https://readymadeui.com/profile_2.webp"
+                    class="w-12 h-12 rounded-full"
+                  />
+                  <div class="ml-4">
+                    <h4 class="font-semibold text-base">John Doe</h4>
+                  </div>
+                </div>
+                <div class="mt-4">
+                  <p>
+                    Veniam proident aute magna anim excepteur et ex consectetur
+                    velit ullamco veniam minim aute sit. Elit occaecat officia
+                    et laboris Lorem minim.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-4 sm:px-10 mt-28">
+        <div
+          class="max-w-7xl w-full mx-auto grid md:grid-cols-2 justify-center items-center gap-10"
+        >
+          <div>
+            <h2 class="md:text-4xl text-3xl font-semibold mb-6">
+              100% Secure your data
+            </h2>
+            <p>
+              Veniam proident aute magna anim excepteur et ex consectetur velit
+              ullamco veniam minim aute sit. Elit occaecat officia et laboris
+              Lorem minim. Officia do aliqua adipisicing ullamco in. consectetur
+              velit ullamco veniam minim aute sit.
+            </p>
+            <button
+              class="bg-black hover:bg-[#222] text-white flex items-center transition-all font-semibold rounded-md px-5 py-4 mt-8"
+            >
+              Read more
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-[14px] fill-current ml-2"
+                viewBox="0 0 492.004 492.004"
+              >
+                <path
+                  d="M484.14 226.886 306.46 49.202c-5.072-5.072-11.832-7.856-19.04-7.856-7.216 0-13.972 2.788-19.044 7.856l-16.132 16.136c-5.068 5.064-7.86 11.828-7.86 19.04 0 7.208 2.792 14.2 7.86 19.264L355.9 207.526H26.58C11.732 207.526 0 219.15 0 234.002v22.812c0 14.852 11.732 27.648 26.58 27.648h330.496L252.248 388.926c-5.068 5.072-7.86 11.652-7.86 18.864 0 7.204 2.792 13.88 7.86 18.948l16.132 16.084c5.072 5.072 11.828 7.836 19.044 7.836 7.208 0 13.968-2.8 19.04-7.872l177.68-177.68c5.084-5.088 7.88-11.88 7.86-19.1.016-7.244-2.776-14.04-7.864-19.12z"
+                  data-original="#000000"
+                ></path>
+              </svg>
+            </button>
+          </div>
+          <div class="w-full h-full">
+            <img
+              src="https://readymadeui.com/login-image.webp"
+              alt="feature"
+              class="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-28 px-4 sm:px-10 bg-blue-100">
+        <div
+          class="min-h-[400px] relative h-full max-w-2xl mx-auto flex flex-col justify-center items-center text-center px-6 py-16"
+        >
+          <h2 class="md:text-4xl text-3xl font-semibold mb-6">
+            We Deliver, wherever you are in Ghana
+          </h2>
+          <p>
+            Veniam proident aute magna anim excepteur et ex consectetur velit
+            ullamco veniam minim aute sit. Elit occaecat officia et laboris
+            Lorem minim. Officia do aliqua adipisicing ullamco in. consectetur
+            velit ullamco veniam minim aute sit.
+          </p>
+          <button
+            class="bg-black hover:bg-[#222] text-white flex items-center transition-all font-semibold rounded-md px-5 py-4 mt-8"
+          >
+            Get started
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-[14px] fill-current ml-2"
+              viewBox="0 0 492.004 492.004"
+            >
+              <path
+                d="M484.14 226.886 306.46 49.202c-5.072-5.072-11.832-7.856-19.04-7.856-7.216 0-13.972 2.788-19.044 7.856l-16.132 16.136c-5.068 5.064-7.86 11.828-7.86 19.04 0 7.208 2.792 14.2 7.86 19.264L355.9 207.526H26.58C11.732 207.526 0 219.15 0 234.002v22.812c0 14.852 11.732 27.648 26.58 27.648h330.496L252.248 388.926c-5.068 5.072-7.86 11.652-7.86 18.864 0 7.204 2.792 13.88 7.86 18.948l16.132 16.084c5.072 5.072 11.828 7.836 19.044 7.836 7.208 0 13.968-2.8 19.04-7.872l177.68-177.68c5.084-5.088 7.88-11.88 7.86-19.1.016-7.244-2.776-14.04-7.864-19.12z"
+                data-original="#000000"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
+  </body>
 </template>
